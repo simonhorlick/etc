@@ -1,0 +1,16 @@
+[Unit]
+Description=letsencrypt cert generation oneshot
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker run -i --rm \
+  --volume=/etc/letsencrypt:/etc/letsencrypt \
+  --volume=/var/www/certbot:/var/www/certbot \
+  certbot/certbot \
+  certonly \
+  --webroot \
+  --register-unsafely-without-email \
+  --agree-tos \
+  --webroot-path=/var/www/certbot \
+  -d jellyfin.jusi.house

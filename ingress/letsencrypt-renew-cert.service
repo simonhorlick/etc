@@ -1,0 +1,18 @@
+[Unit]
+Description=letsencrypt cert update oneshot
+Requires=docker.service
+Wants=letsencrypt-renew-cert.timer
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker run -i --rm \
+  --volume=/etc/letsencrypt:/etc/letsencrypt \
+  --volume=/var/www/certbot:/var/www/certbot \
+  certbot/certbot \
+  renew
+ExecStartPost=/usr/bin/docker exec \
+  nginx-ingress-https \
+  /bin/bash -c "nginx -s reload"
+
+[Install]
+WantedBy=multi-user.target

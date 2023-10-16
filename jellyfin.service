@@ -1,0 +1,20 @@
+[Unit]
+Description=Jellyfin
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=jellyfin
+ExecStart=/usr/bin/docker run -i --rm \
+  --name jellyfin \
+  --user 108:114 \
+  --group-add="122" \
+  --device /dev/dri/renderD128:/dev/dri/renderD128 \
+  --volume /var/lib/jellyfin:/config \
+  --volume /var/cache/jellyfin:/cache \
+  -p 172.17.0.1:8096:8096 \
+  --mount type=bind,source=/mnt/pool,target=/mnt/pool,readonly \
+  jellyfin/jellyfin
+ 
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+[Unit]
+Description=http server that serves letsencrypt ACME challenges and 301 redirects to https 
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+Restart=always
+ExecStartPre=/usr/bin/docker pull nginx
+ExecStart=/usr/bin/docker run -i --rm \
+  --name nginx-ingress-http \
+  --publish=80:80 \
+  --volume /etc/letsencrypt:/etc/letsencrypt \
+  --volume /var/www/certbot:/var/www/certbot \
+  --volume /etc/nginx/nginx-ingress-http.conf:/etc/nginx/nginx.conf:ro \
+  nginx
+
+[Install]
+WantedBy=multi-user.target
