@@ -1,0 +1,18 @@
+<service-group>
+  <name>Home Assistant Bridge A91171</name>
+  <service>
+    <type>_hap._tcp</type>
+    <port>21064</port>
+    <host-name>kl-ts.local</host-name>
+    <!-- These are broadcast from within the container, use discover_hap.py to print them -->
+    <txt-record>md=Home Assistant Bridge A91171</txt-record>
+    <txt-record>pv=1.1</txt-record>
+    <txt-record>id=95:95:03:A9:11:71</txt-record>
+    <txt-record>c#=12</txt-record>
+    <txt-record>s#=1</txt-record>
+    <txt-record>ff=0</txt-record>
+    <txt-record>ci=2</txt-record>
+    <txt-record>sf=0</txt-record>
+    <txt-record>sh="iJxW0A=="</txt-record>
+  </service>
+</service-group>
