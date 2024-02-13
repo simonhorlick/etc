@@ -1,0 +1,13 @@
+[Unit]
+Description=Update AAAA records
+# Enable this with systemctl enable systemd-networkd-wait-online.service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/simon/dockerfiles/cf-dns/patch-record.sh
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

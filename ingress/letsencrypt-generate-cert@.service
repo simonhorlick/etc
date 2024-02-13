@@ -13,4 +13,4 @@ ExecStart=/usr/bin/docker run -i --rm \
   --register-unsafely-without-email \
   --agree-tos \
   --webroot-path=/var/www/certbot \
-  -d jellyfin.jusi.house
+  -d "%I"

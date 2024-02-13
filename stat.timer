@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer to keep drives from spinning down
+Requires=stat.service
+
+[Timer]
+Unit=stat.service
+OnCalendar=*-*-* *:*:00
+
+[Install]
+WantedBy=timers.target

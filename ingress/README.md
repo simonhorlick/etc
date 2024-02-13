@@ -25,9 +25,9 @@ journalctl -u nginx-ingress-http.service
 Now we're listening for ACME challenges, we can run certbot to generate the certificate.
 
 ```bash
-cp letsencrypt-generate-cert.service /etc/systemd/system/letsencrypt-generate-cert.service
-systemctl start letsencrypt-generate-cert.service
-journalctl -u letsencrypt-generate-cert.service
+cp letsencrypt-generate-cert@.service /etc/systemd/system/letsencrypt-generate-cert@.service
+systemctl start letsencrypt-generate-cert@homeassistant.jusi.house.service
+journalctl -u letsencrypt-generate-cert@homeassistant.jusi.house.service
 ```
 
 Create a timer that will auto-renew the certificate before it expires.

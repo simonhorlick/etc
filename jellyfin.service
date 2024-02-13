@@ -8,13 +8,20 @@ User=jellyfin
 ExecStart=/usr/bin/docker run -i --rm \
   --name jellyfin \
   --user 108:114 \
-  --group-add="122" \
+  --group-add=107 \
   --device /dev/dri/renderD128:/dev/dri/renderD128 \
-  --volume /var/lib/jellyfin:/config \
-  --volume /var/cache/jellyfin:/cache \
+  -e JELLYFIN_DATA_DIR=/var/lib/jellyfin \
+  -e JELLYFIN_CONFIG_DIR=/var/lib/jellyfin/config \
+  -e JELLYFIN_CACHE_DIR=/var/cache/jellyfin \
+  --volume /var/lib/jellyfin:/var/lib/jellyfin \
+  --volume /var/cache/jellyfin:/var/cache/jellyfin \
   -p 172.17.0.1:8096:8096 \
   --mount type=bind,source=/mnt/pool,target=/mnt/pool,readonly \
   jellyfin/jellyfin
- 
+
 [Install]
 WantedBy=multi-user.target
+
+# the --user option needs to be numeric so that the named user isn't required to exist within the container.
+# find it with $(id -u jellyfin):$(id -g jellyfin)
+# also add group-add $(getent group render | cut -d: -f3)

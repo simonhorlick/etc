@@ -1,0 +1,12 @@
+[Unit]
+Description=Update DNS records timer
+Requires=cf-dns.service
+
+[Timer]
+OnBootSec=0min
+OnCalendar=*:0
+Unit=cf-dns.service
+
+[Install]
+WantedBy=timers.target  
+

@@ -1,0 +1,53 @@
+# By default place downloads here.
+directory.default.set = /mnt/pool/dl
+
+# Store rtorrent state here.
+session.path.set = /home/simon/.rtorrent/session
+
+# Port range to use for listening.
+network.port_range.set = 6450-6450
+
+# The ip address reported to the tracker.
+#ip = 0.0.0.0
+
+# Enable an xmlrpc server for the web ui.
+scgi_local = /home/simon/.rtorrent/socket/rtorrent.sock
+
+# Increase max size of RPC commands.
+network.xmlrpc.size_limit.set = 5M
+
+# Disable hash check for finished torrents.
+pieces.hash.on_completion.set = no
+
+# Disable pre-loading.
+#pieces.preload.type.set = 0
+
+# Logging
+log.open_file = "rtorrent.log", "/var/log/rtorrent.log"
+log.add_output = "warn", "rtorrent.log"
+log.add_output = "debug", "rtorrent.log"
+log.add_output = "info", "rtorrent.log"
+log.add_output = "warn", "rtorrent.log"
+log.add_output = "notice", "rtorrent.log"
+log.add_output = "error", "rtorrent.log"
+log.add_output = "critical", "rtorrent.log"
+
+# Maximum number of simultaneous downloads and uploads slots (global slots!) (`max_downloads_global`, `max_uploads_global`) Default: 0 0
+#throttle.max_downloads.global.set = 300
+#throttle.max_uploads.global.set   = 300
+
+# Maximum and minimum number of peers to connect to per torrent while downloading (`min_peers`, `max_peers`) Default: `100` and `200` respectively
+throttle.min_peers.normal.set = 200
+throttle.max_peers.normal.set = 2000
+
+# Maximum number of simultaneous downloads and uploads slots per torrent (`max_uploads`) Default: `50` for both
+throttle.max_downloads.set = 2000
+throttle.max_uploads.set = 2000
+
+# Set the numwant field sent to the tracker, which indicates how many peers we want. 
+# A negative value disables this feature. Default: `-1` (`tracker_numwant`)
+trackers.numwant.set = 200
+
+# Use large TCP buffers.
+#network.receive_buffer.size.set = 8M
+#network.send_buffer.size.set = 8M

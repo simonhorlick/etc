@@ -10,6 +10,7 @@ ExecStartPre=/usr/bin/docker pull nginx
 ExecStart=/usr/bin/docker run -i --rm \
   --name nginx-ingress-https \
   --publish=443:443 \
+  --net=host \
   --volume /etc/nginx/nginx-ingress-https.conf:/etc/nginx/nginx.conf:ro \
   --volume /etc/letsencrypt:/etc/letsencrypt:ro \
   --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \

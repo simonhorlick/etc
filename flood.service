@@ -1,0 +1,24 @@
+[Unit]
+Description=Flood bittorrent ui
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=simon
+ExecStart=/usr/bin/docker run -i --rm \
+  --name flood \
+  --hostname flood \
+  -e HOME=/home/simon/.flood/config \
+  -v /home/simon/.flood/config:/home/simon/.flood/config \
+  -v /home/simon/.rtorrent/socket:/home/simon/.rtorrent/socket \
+  -v /mnt/pool:/mnt/pool \
+  -u 1000:1000 \
+  -p 100.95.132.49:3001:3001 \
+  jesec/flood \
+    --port 3001 \
+    --allowedpath /mnt/pool \
+    --auth none \
+    --rtsocket /home/simon/.rtorrent/socket/rtorrent.sock
+
+[Install]
+WantedBy=multi-user.target

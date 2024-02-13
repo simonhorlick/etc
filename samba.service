@@ -1,0 +1,28 @@
+[Unit]
+Description=Samba
+After=docker.service
+Requires=docker.service
+
+[Service]
+# See example configuration here: https://raw.githubusercontent.com/ServerContainers/samba/master/docker-compose.yml
+# NOTE: There seems to be some kind of bug with the %U placeholder on paths, so
+# I've removed it from the timemachine entry.
+ExecStart=/usr/bin/docker run \
+  --rm \
+  --name=samba \
+  -e MODEL='TimeCapsule' \
+  -e SAMBA_CONF_LOG_LEVEL=3 \
+  -e AVAHI_DISABLE=1 \
+  -e WSDD2_DISABLE=1 \
+  -e ACCOUNT_simon=simon \
+  -e UID_simon=1000 \
+  -e SAMBA_VOLUME_CONFIG_timemachine="[timemachine]; path=/mnt/pool/timemachine; valid users = simon; guest ok = no; read only = no; browseable = yes; fruit:time machine = yes; fruit:time machine max size = 5000G" \
+ -e SAMBA_VOLUME_CONFIG_pool="[pool]; path=/mnt/pool; valid users = simon; guest ok = no; read only = no; browseable = yes" \
+  -v /mnt/pool:/mnt/pool \
+  -p 100.95.132.49:139:139 \
+  -p 100.95.132.49:445:445 \
+  ghcr.io/servercontainers/samba
+ExecStop=/usr/bin/docker stop samba
+
+[Install]
+WantedBy=multi-user.target

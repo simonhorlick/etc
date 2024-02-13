@@ -1,0 +1,12 @@
+[Unit]
+Description=rtorrent bittorrent client
+After=docker.service
+Requires=docker.service
+
+[Service]
+User=simon
+Restart=on-failure
+ExecStart=/usr/bin/rtorrent -o system.daemon.set=true
+
+[Install]
+WantedBy=multi-user.target
