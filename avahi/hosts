@@ -26,3 +26,4 @@
 # 192.168.0.1 router.local
 # 2001::81:1 test.local
 100.95.132.49 kl-ts.local
+192.168.0.183 kl.local
