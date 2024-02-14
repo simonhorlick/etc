@@ -16,9 +16,11 @@ ExecStart=/usr/bin/docker run \
   -e AVAHI_DISABLE=1 \
   -e WSDD2_DISABLE=1 \
   -e ACCOUNT_simon=simon \
+  -e ACCOUNT_aanjuliana=aanjuliana \
   -e UID_simon=1000 \
   -e SAMBA_GLOBAL_STANZA="bind interfaces only = yes; interfaces = 192.168.0.183/24" \
-  -e SAMBA_VOLUME_CONFIG_timemachine="[timemachine]; path=/mnt/pool/timemachine; valid users = simon; guest ok = no; read only = no; browseable = yes; fruit:time machine = yes; fruit:time machine max size = 5000G" \
+  -e SAMBA_VOLUME_CONFIG_timemachinesimon="[timemachinesimon]; path=/mnt/pool/timemachine/simon; valid users = simon; guest ok = no; read only = no; browseable = yes; fruit:time machine = yes; fruit:time machine max size = 5000G" \
+  -e SAMBA_VOLUME_CONFIG_timemachineaanjuliana="[timemachineaanjuliana]; path=/mnt/pool/timemachine/aanjuliana; valid users = aanjuliana; guest ok = no; read only = no; browseable = yes; fruit:time machine = yes; fruit:time machine max size = 5000G" \
  -e SAMBA_VOLUME_CONFIG_pool="[pool]; path=/mnt/pool; valid users = simon; guest ok = no; read only = no; browseable = yes" \
   -v /mnt/pool:/mnt/pool \
   ghcr.io/servercontainers/samba
