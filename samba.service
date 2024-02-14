@@ -10,12 +10,14 @@ Requires=docker.service
 ExecStart=/usr/bin/docker run \
   --rm \
   --name=samba \
+  --net=host \
   -e MODEL='TimeCapsule' \
   -e SAMBA_CONF_LOG_LEVEL=3 \
   -e AVAHI_DISABLE=1 \
   -e WSDD2_DISABLE=1 \
   -e ACCOUNT_simon=simon \
   -e UID_simon=1000 \
+  -e SAMBA_GLOBAL_STANZA="bind interfaces only = yes; interfaces = 192.168.0.183/24" \
   -e SAMBA_VOLUME_CONFIG_timemachine="[timemachine]; path=/mnt/pool/timemachine; valid users = simon; guest ok = no; read only = no; browseable = yes; fruit:time machine = yes; fruit:time machine max size = 5000G" \
  -e SAMBA_VOLUME_CONFIG_pool="[pool]; path=/mnt/pool; valid users = simon; guest ok = no; read only = no; browseable = yes" \
   -v /mnt/pool:/mnt/pool \
