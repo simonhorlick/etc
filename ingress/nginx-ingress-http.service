@@ -6,14 +6,16 @@ Requires=docker.service
 [Service]
 Restart=always
 ExecStartPre=/usr/bin/docker pull nginx
-ExecStartPre=/bin/sh -c "systemctl set-environment ENO1_IP=$(/usr/bin/ip -json addr show eno1 | /usr/bin/jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local')"
-ExecStart=/usr/bin/docker run -i --rm \
+ExecStart=/bin/sh -c "docker run -i --rm \
   --name nginx-ingress-http \
-  --publish=${ENO1_IP}:80:80 \
+  --net=host \
   --volume /etc/letsencrypt:/etc/letsencrypt \
   --volume /var/www/certbot:/var/www/certbot \
   --volume /etc/nginx/nginx-ingress-http.conf:/etc/nginx/nginx.conf:ro \
-  nginx
+  --volume /etc/nginx/files.horlick.me.http.conf.template:/etc/nginx/templates/files.horlick.me.http.conf.template:ro \
+  --volume /etc/nginx/jellyfin.jusi.house.http.conf.template:/etc/nginx/templates/jellyfin.jusi.house.http.conf.template:ro \
+  --env ENO1_IP=$(ip -json addr show eno1 | jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local') \
+  nginx"
 
 [Install]
 WantedBy=multi-user.target

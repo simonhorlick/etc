@@ -4,21 +4,23 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-TimeoutStartSec=0
 Restart=always
 ExecStartPre=/usr/bin/docker pull nginx
-ExecStartPre=/bin/sh -c "systemctl set-environment ENO1_IP=$(/usr/bin/ip -json addr show eno1 | /usr/bin/jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local')"
 
-# It's better to have nginx listen directly using host networking because then we get real remote
-# addresses in the logs.
-ExecStart=/usr/bin/docker run -i --rm \
+# It's better to have nginx listen directly using host networking because then
+# we get real remote addresses in the logs. The nginx configuration file
+# contains a placeholder for the listen IP address which is set from the
+# supplied environment variable when the container starts.
+ExecStart=/bin/sh -c "docker run -i --rm \
   --name nginx-ingress-https \
-  --publish=${ENO1_IP}:443:443 \
+  --net=host \
   --volume /etc/nginx/nginx-ingress-https.conf:/etc/nginx/nginx.conf:ro \
+  --volume /etc/nginx/files.horlick.me.conf.template:/etc/nginx/templates/files.horlick.me.conf.template:ro \
+  --volume /etc/nginx/jellyfin.jusi.house.conf.template:/etc/nginx/templates/jellyfin.jusi.house.conf.template:ro \
   --volume /etc/letsencrypt:/etc/letsencrypt:ro \
   --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
-  --volume /usr/share/nginx/html:/usr/share/nginx/html:ro \
-  nginx
+  --env ENO1_IP=$(ip -json addr show eno1 | jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local') \
+  nginx"
 
 [Install]
 WantedBy=multi-user.target

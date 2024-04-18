@@ -6,11 +6,12 @@ Requires=docker.service
 [Service]
 Restart=always
 ExecStartPre=/usr/bin/docker pull nginx
-ExecStartPre=/bin/sh -c "systemctl set-environment TAILSCALE0_IP=$(/usr/bin/ip -json addr show tailscale0 | /usr/bin/jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local')"
 ExecStart=/usr/bin/docker run -i --rm \
   --name nginx-internal-http \
-  --publish=${TAILSCALE0_IP}:80:80 \
+  --net=host \
   --volume /etc/nginx/nginx-internal-http.conf:/etc/nginx/nginx.conf:ro \
+  --volume /etc/nginx/homeassistant.jusi.house.conf.template:/etc/nginx/templates/homeassistant.jusi.house.conf.template:ro \
+  --volume /etc/nginx/flood.jusi.house.conf.template:/etc/nginx/templates/flood.jusi.house.conf.template:ro \
   nginx
 
 [Install]

@@ -1,0 +1,15 @@
+  server {
+    listen [${ENO1_IP}]:80;
+
+    server_name files.horlick.me;
+
+    access_log /var/log/nginx/access.log kv;
+
+    location /.well-known/acme-challenge/ {
+      root /var/www/certbot;
+    }
+
+    location / {
+      return 301 https://$host$request_uri;
+    }
+  }

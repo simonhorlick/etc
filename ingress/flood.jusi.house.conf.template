@@ -1,0 +1,26 @@
+  server {
+    listen [fd7a:115c:a1e0:ab12:4843:cd96:625f:8431]:80;
+
+    server_name flood.jusi.house;
+
+    access_log /var/log/nginx/access.log kv;
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+
+    location / {
+      # 172.17.0.1 is the address of the bridge network, i.e. the host
+      set $backend "http://172.17.0.1:3001";
+      proxy_pass $backend;
+      proxy_http_version  1.1;
+      proxy_cache_bypass  $http_upgrade;
+
+      proxy_set_header Host              $host;
+      proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+      proxy_set_header X-Real-IP         $remote_addr;
+      proxy_set_header X-Forwarded-Host  $host;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header X-Forwarded-Port  $server_port;
+    }
+  }
