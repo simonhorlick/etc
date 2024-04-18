@@ -10,9 +10,9 @@ Requires=docker.service
 # listen on the docker bridge interface for connections from nginx-internal-http
 ExecStart=/usr/bin/docker run -i --rm \
   --name homeassistant \
+  --net=host \
   -e TZ=Asia/Kuala_Lumpur \
   --volume /etc/homeassistant/config:/config \
-  -p 172.17.0.1:8123:8123 \
   ghcr.io/home-assistant/home-assistant:2024.4.2
 
 [Install]

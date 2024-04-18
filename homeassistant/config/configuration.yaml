@@ -9,26 +9,40 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
+homeassistant:
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - fd7a:115c:a1e0::/96
+        #- 0.0.0.0/32
+      allow_bypass_login: true
+    - type: homeassistant
+
 http:
-  server_host: 0.0.0.0
-  #server_host: 100.95.132.49
+  server_host: fd7a:115c:a1e0:ab12:4843:cd96:625f:8431
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - fd7a:115c:a1e0:ab12:4843:cd96:625f:8431
+
+
+#  server_host: fd7a:115c:a1e0:ab12:4843:cd96:625f:8431
+#    - 172.30.33.0/24
 
 logger:
-  default: warning
+  default: debug
   logs:
     homeassistant.components.homekit: debug
     pyhap: debug
-
-homekit:
-  - filter:
-      include_domains:
-        - light
-      include_entity_globs:
-        - sensor.*_humidity
-        - sensor.*_temperature
-        - media_player.lg_webos_tv_oled55c2psa
-    port: 21064
-    #ip_address: 100.95.132.49
-    ip_address: 0.0.0.0
-    advertise_ip:
-      - 100.95.132.49
+#homekit:
+#  - filter:
+#      include_domains:
+#        - light
+#      include_entity_globs:
+#        - sensor.*_humidity
+#        - sensor.*_temperature
+#        - media_player.lg_webos_tv_oled55c2psa
+#    port: 21064
+#    #ip_address: 100.95.132.49
+#    ip_address: 0.0.0.0
+#    advertise_ip:
+#      - fd7a:115c:a1e0:ab12:4843:cd96:625f:8431

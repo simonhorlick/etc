@@ -10,8 +10,7 @@
     tcp_nodelay on;
 
     location / {
-      # 172.17.0.1 is the address of the bridge network, i.e. the host
-      set $backend "http://172.17.0.1:8123";
+      set $backend "http://[fd7a:115c:a1e0:ab12:4843:cd96:625f:8431]:8123";
       proxy_pass $backend;
       proxy_http_version  1.1;
       proxy_cache_bypass  $http_upgrade;
@@ -22,5 +21,7 @@
       proxy_set_header X-Forwarded-Host  $host;
       proxy_set_header X-Forwarded-Proto $scheme;
       proxy_set_header X-Forwarded-Port  $server_port;
+      proxy_set_header Upgrade           $http_upgrade;
+      proxy_set_header Connection        "Upgrade";
     }
   }
