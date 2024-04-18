@@ -1,5 +1,5 @@
 [Unit]
-Description=reverse proxy for api
+Description=https ingress on eno1
 After=docker.service
 Requires=docker.service
 
@@ -7,15 +7,17 @@ Requires=docker.service
 TimeoutStartSec=0
 Restart=always
 ExecStartPre=/usr/bin/docker pull nginx
+ExecStartPre=/bin/sh -c "systemctl set-environment ENO1_IP=$(/usr/bin/ip -json addr show eno1 | /usr/bin/jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local')"
+
+# It's better to have nginx listen directly using host networking because then we get real remote
+# addresses in the logs.
 ExecStart=/usr/bin/docker run -i --rm \
   --name nginx-ingress-https \
-  --publish=443:443 \
-  --net=host \
+  --publish=${ENO1_IP}:443:443 \
   --volume /etc/nginx/nginx-ingress-https.conf:/etc/nginx/nginx.conf:ro \
   --volume /etc/letsencrypt:/etc/letsencrypt:ro \
   --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
   --volume /usr/share/nginx/html:/usr/share/nginx/html:ro \
-  --volume /mnt/pool/music_videos:/mnt/pool/music_videos:ro \
   nginx
 
 [Install]

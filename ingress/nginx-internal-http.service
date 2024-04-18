@@ -1,0 +1,17 @@
+[Unit]
+Description=http server for non-public traffic 
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+ExecStartPre=/usr/bin/docker pull nginx
+ExecStartPre=/bin/sh -c "systemctl set-environment TAILSCALE0_IP=$(/usr/bin/ip -json addr show tailscale0 | /usr/bin/jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local')"
+ExecStart=/usr/bin/docker run -i --rm \
+  --name nginx-internal-http \
+  --publish=${TAILSCALE0_IP}:80:80 \
+  --volume /etc/nginx/nginx-internal-http.conf:/etc/nginx/nginx.conf:ro \
+  nginx
+
+[Install]
+WantedBy=multi-user.target

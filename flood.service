@@ -13,7 +13,7 @@ ExecStart=/usr/bin/docker run -i --rm \
   -v /home/simon/.rtorrent/socket:/home/simon/.rtorrent/socket \
   -v /mnt/pool:/mnt/pool \
   -u 1000:1000 \
-  -p 100.95.132.49:3001:3001 \
+  -p 172.17.0.1:3001:3001 \
   jesec/flood \
     --port 3001 \
     --allowedpath /mnt/pool \

@@ -27,7 +27,9 @@ Now we're listening for ACME challenges, we can run certbot to generate the cert
 ```bash
 cp letsencrypt-generate-cert@.service /etc/systemd/system/letsencrypt-generate-cert@.service
 systemctl start letsencrypt-generate-cert@homeassistant.jusi.house.service
+systemctl start letsencrypt-generate-cert@files.horlick.me.service
 journalctl -u letsencrypt-generate-cert@homeassistant.jusi.house.service
+journalctl -u letsencrypt-generate-cert@files.horlick.me.service
 ```
 
 Create a timer that will auto-renew the certificate before it expires.

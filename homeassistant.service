@@ -4,17 +4,16 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-#User=jellyfin
 # 8123 - web ui
 # 21064 - homekit bridge
 # This must be used with the avahi homekit mDNS service.
+# listen on the docker bridge interface for connections from nginx-internal-http
 ExecStart=/usr/bin/docker run -i --rm \
   --name homeassistant \
   -e TZ=Asia/Kuala_Lumpur \
   --volume /etc/homeassistant/config:/config \
-  -p 100.95.132.49:8123:8123 \
-  -p 100.95.132.49:21064:21064 \
-  ghcr.io/home-assistant/home-assistant:stable
- 
+  -p 172.17.0.1:8123:8123 \
+  ghcr.io/home-assistant/home-assistant:2024.4.2
+
 [Install]
 WantedBy=multi-user.target
