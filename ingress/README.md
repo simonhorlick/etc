@@ -12,6 +12,8 @@ First, create the nginx configurations:
 mkdir -p /etc/nginx
 cp nginx-ingress-http.conf /etc/nginx/nginx-ingress-http.conf
 cp nginx-ingress-https.conf /etc/nginx/nginx-ingress-https.conf
+cp nginx-internal-http.conf /etc/nginx/nginx-internal-http.conf
+cp *.template /etc/nginx/
 ```
 
 ```bash
@@ -26,9 +28,9 @@ Now we're listening for ACME challenges, we can run certbot to generate the cert
 
 ```bash
 cp letsencrypt-generate-cert@.service /etc/systemd/system/letsencrypt-generate-cert@.service
-systemctl start letsencrypt-generate-cert@homeassistant.jusi.house.service
+systemctl start letsencrypt-generate-cert@jellyfin.jusi.house.service
 systemctl start letsencrypt-generate-cert@files.horlick.me.service
-journalctl -u letsencrypt-generate-cert@homeassistant.jusi.house.service
+journalctl -u letsencrypt-generate-cert@jellyfin.jusi.house.service
 journalctl -u letsencrypt-generate-cert@files.horlick.me.service
 ```
 
@@ -52,4 +54,12 @@ cp nginx-ingress-https.service /etc/systemd/system/nginx-ingress-https.service
 systemctl enable nginx-ingress-https.service
 systemctl start nginx-ingress-https.service
 journalctl -f -u nginx-ingress-https.service
+```
+
+Create the internal http server:
+```bash
+cp nginx-internal-http.service /etc/systemd/system/nginx-internal-http.service
+systemctl enable nginx-internal-http.service
+systemctl start nginx-internal-http.service
+journalctl -u nginx-internal-http.service
 ```
