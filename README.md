@@ -16,3 +16,5 @@ zed needs configuring, first set up msmtp from here https://gist.github.com/simo
 sudo systemctl start zfs-zed.service
 sudo systemctl enable zfs-zed.service
 ```
+
+install tailscale from the instructions here https://gist.github.com/simonhorlick/b90ff17cd092528f1d91f8d5839d0585
