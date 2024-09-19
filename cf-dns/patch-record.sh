@@ -23,6 +23,13 @@ curl -vvv --request PUT \
   --header "Authorization: Bearer $TOKEN" \
   --data "{\"content\":\"$ip\",\"name\":\"kl.horlick.me\",\"type\":\"AAAA\"}"
 
+RID=a310aad485b93e07da08a68ba3334008 # files.horlick.me AAAA
+
+curl -vvv --request PUT \
+  --url https://api.cloudflare.com/client/v4/zones/$ZONEID/dns_records/$RID \
+  --header 'Content-Type: application/json' \
+  --header "Authorization: Bearer $TOKEN" \
+  --data "{\"content\":\"$ip\",\"name\":\"files.horlick.me\",\"type\":\"AAAA\"}"
 
 ZONEID_JUSI=c31459017fe654392d87c13d9a5d44c9
 # The RID is from this request:
@@ -44,4 +51,5 @@ curl -vvv --request PUT \
   --header 'Content-Type: application/json' \
   --header "Authorization: Bearer $TOKEN" \
   --data "{\"content\":\"$ip4\",\"name\":\"router.jusi.house\",\"type\":\"A\"}"
+
 
