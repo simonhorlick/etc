@@ -15,7 +15,6 @@ ExecStart=/bin/sh -c "docker run -i --rm \
   --name nginx-ingress-https \
   --net=host \
   --volume /etc/nginx/nginx-ingress-https.conf:/etc/nginx/nginx.conf:ro \
-  --volume /etc/nginx/files.horlick.me.conf.template:/etc/nginx/templates/files.horlick.me.conf.template:ro \
   --volume /etc/nginx/jellyfin.jusi.house.conf.template:/etc/nginx/templates/jellyfin.jusi.house.conf.template:ro \
   --volume /etc/letsencrypt:/etc/letsencrypt:ro \
   --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
