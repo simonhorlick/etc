@@ -14,7 +14,7 @@ ExecStart=/bin/sh -c "docker run -i --rm \
   --volume /etc/nginx/nginx-ingress-http.conf:/etc/nginx/nginx.conf:ro \
   --volume /etc/nginx/files.horlick.me.http.conf.template:/etc/nginx/templates/files.horlick.me.http.conf.template:ro \
   --volume /etc/nginx/jellyfin.jusi.house.http.conf.template:/etc/nginx/templates/jellyfin.jusi.house.http.conf.template:ro \
-  --env ENO1_IP=$(ip -json addr show eno1 | jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local') \
+  --env ENO1_IP=$(ip -json addr show enp9s0f0 | jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local') \
   nginx"
 
 [Install]

@@ -1,5 +1,5 @@
 [Unit]
-Description=https ingress on eno1
+Description=https ingress on enp9s0f0
 After=docker.service
 Requires=docker.service
 
@@ -18,7 +18,7 @@ ExecStart=/bin/sh -c "docker run -i --rm \
   --volume /etc/nginx/jellyfin.jusi.house.conf.template:/etc/nginx/templates/jellyfin.jusi.house.conf.template:ro \
   --volume /etc/letsencrypt:/etc/letsencrypt:ro \
   --volume /etc/ssl/certs/dhparam.pem:/etc/ssl/certs/dhparam.pem:ro \
-  --env ENO1_IP=$(ip -json addr show eno1 | jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local') \
+  --env ENO1_IP=$(ip -json addr show enp9s0f0 | jq -r '.[].addr_info[] | select(.family == \"inet6\") | select(.scope == \"global\").local') \
   nginx"
 
 [Install]
