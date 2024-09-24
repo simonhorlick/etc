@@ -29,9 +29,7 @@ Now we're listening for ACME challenges, we can run certbot to generate the cert
 ```bash
 cp letsencrypt-generate-cert@.service /etc/systemd/system/letsencrypt-generate-cert@.service
 systemctl start letsencrypt-generate-cert@jellyfin.jusi.house.service
-systemctl start letsencrypt-generate-cert@files.horlick.me.service
 journalctl -u letsencrypt-generate-cert@jellyfin.jusi.house.service
-journalctl -u letsencrypt-generate-cert@files.horlick.me.service
 ```
 
 Create a timer that will auto-renew the certificate before it expires.
@@ -57,6 +55,7 @@ journalctl -f -u nginx-ingress-https.service
 ```
 
 Create the internal http server:
+
 ```bash
 cp nginx-internal-http.service /etc/systemd/system/nginx-internal-http.service
 systemctl enable nginx-internal-http.service
