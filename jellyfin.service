@@ -8,8 +8,6 @@ User=jellyfin
 ExecStart=/usr/bin/docker run -i --rm \
   --name jellyfin \
   --user 108:114 \
-  --group-add=107 \
-  --device /dev/dri/renderD128:/dev/dri/renderD128 \
   -e JELLYFIN_DATA_DIR=/var/lib/jellyfin \
   -e JELLYFIN_CONFIG_DIR=/var/lib/jellyfin/config \
   -e JELLYFIN_CACHE_DIR=/var/cache/jellyfin \
@@ -22,6 +20,8 @@ ExecStart=/usr/bin/docker run -i --rm \
 [Install]
 WantedBy=multi-user.target
 
-# the --user option needs to be numeric so that the named user isn't required to exist within the container.
-# find it with $(id -u jellyfin):$(id -g jellyfin)
-# also add group-add $(getent group render | cut -d: -f3)
+# The --user option needs to be numeric so that the named user isn't required to exist within the container.
+# Find it with $(id -u jellyfin):$(id -g jellyfin)
+
+# NOTE:
+# Jellyfin listens on the docker0 interface. This is so when we run nginx under docker it's easy to proxy the traffic.
