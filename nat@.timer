@@ -1,6 +1,6 @@
 [Unit]
-Description=Update rtorrent port forward timer
-Requires=rtorrent-nat.service
+Description=Update port forward timer for port %I
+Requires=nat@%i.service
 
 [Timer]
 # A timer which starts once a day. When activated, it triggers the service
@@ -8,7 +8,7 @@ Requires=rtorrent-nat.service
 # example due to the system being powered off.
 OnCalendar=daily
 Persistent=true
-Unit=rtorrent-nat.service
+Unit=nat@%i.service
 
 [Install]
 WantedBy=timers.target  

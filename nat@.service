@@ -1,11 +1,12 @@
 [Unit]
-Description=Add port forward for rtorrent
+Description=Add port forward to NAT for port %I
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/natpmpc -a 6450 6450 TCP 86400
+ExecStart=/usr/bin/natpmpc -a %i %i TCP 86400
+ExecStart=/usr/bin/natpmpc -a %i %i UDP 86400
 StandardOutput=journal
 
 [Install]
